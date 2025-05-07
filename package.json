@@ -1,0 +1,71 @@
+{
+  "name": "web-builder-plugins",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks",
+    "buildPackages": "pnpm -r --filter \"@webspatial/*\" run build",
+    "setup": "pnpm install && npm run buildPackages",
+    "watchNPM": "concurrently \"cd core/ && npm run start\" \"cd react/ && npm run start\"",
+    "test": "concurrently \"pnpm -r --filter '@webspatial/*' run test\" ",
+    "format": "pnpm -r run format",
+    "ci:publish": "changeset publish",
+    "changeset": "changeset",
+    "changeset:pre-enter": "changeset pre enter alpha",
+    "changeset:pre-exit": "changeset pre exit alpha"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged && pnpm test"
+  },
+  "lint-staged": {
+    "*.{js,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --write"
+    ],
+    "*.swift": [
+      "swiftformat"
+    ],
+    "*": [
+      "node -e \"const fs = require('fs'); process.argv.slice(1).forEach(file => { if (fs.existsSync(file)) { const size = fs.statSync(file).size; if (size >= 1048576) { console.error(`Error: ${file} is 1MB or larger`); process.exit(1); }}})\"",
+      "node -e \"const fs=require('fs'),f=process.argv[1],c=fs.readFileSync(f,'utf8').split('\\n').filter(l=>/[\\u4E00-\\u9FFF]/.test(l)); if(c.length) { console.error('Non english characters detected:\\n' + c.join('\\n')); process.exit(1); }\""
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webspatial/web-builder-plugins.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/webspatial/web-builder-plugins/issues"
+  },
+  "homepage": "https://github.com/webspatial/web-builder-plugins#readme",
+  "devDependencies": {
+    "@changesets/cli": "^2.29.2",
+    "@vitest/coverage-v8": "^3.0.9",
+    "concurrently": "^8.2.2",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "simple-git-hooks": "^2.11.1",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.9"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "pnpm": {
+    "overrides": {
+      "react@>=0.0.1 <0.14.0": ">=0.14.0",
+      "cli@<1.0.0": ">=1.0.0",
+      "esbuild@<=0.24.2": ">=0.25.0",
+      "prismjs@<1.30.0": ">=1.30.0",
+      "@babel/runtime@<7.26.10": ">=7.26.10",
+      "@babel/helpers@<7.26.10": ">=7.26.10",
+      "vite@>=6.2.0 <6.2.3": ">=6.2.3",
+      "vite@>=6.2.0 <6.2.4": ">=6.2.4"
+    }
+  }
+}

@@ -1,0 +1,72 @@
+name: Changesets
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  packages: write
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  CI: true
+  SKIP_SIMPLE_GIT_HOOKS: 1
+
+jobs:
+  version:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Use full git history to enable tagging
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      
+      - name: Install dependencies and build
+        run: pnpm run setup
+      
+      - name: Create and publish versions
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          commit: "chore: update versions"
+          title: "chore: update versions"
+          publish: pnpm ci:publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create and push Git tags for published packages
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          echo "Published packages: ${{ steps.changesets.outputs.publishedPackages }}"
+          # Configure Git user
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Loop through each published package using jq (jq is pre-installed on ubuntu-latest)
+          echo "${{ steps.changesets.outputs.publishedPackages }}" | jq -c '.[]' | while read package; do
+            name=$(echo $package | jq -r '.name')
+            version=$(echo $package | jq -r '.version')
+            tag="${name}@${version}"
+            echo "Creating tag $tag"
+            # Check if the tag already exists
+            if git rev-parse "$tag" >/dev/null 2>&1; then
+              echo "Tag $tag already exists, skipping."
+            else
+              git tag "$tag"
+            fi
+          done
+          # Push all tags to the remote repository
+          git push --tags

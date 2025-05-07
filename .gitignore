@@ -1,0 +1,23 @@
+# builder/visionOS/web-spatial/static-web
+**/*/xcuserdata
+builder/visionOS/web-spatial/web-project
+builder/visionOS/icon.*
+builder/visionOS/build/**
+builder/visionOS/web-spatial/Assets.xcassets
+old/
+
+# We only allow pnpm lock files
+**/*/yarn.lock
+**/*/package-lock.json
+# No node_modules anywhere
+**/*/node_modules/
+node_modules
+.DS_Store
+*.log
+.pnpm-store
+coverage
+.vscode
+coverage
+temp
+.idea
+dist
