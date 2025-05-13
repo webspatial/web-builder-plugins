@@ -1,5 +1,8 @@
 # install
 
+`pnpm i -D @webspatial/next-plugin`
+
+
 ```js
 
 import withWebspatial from '@webspatial/next-plugin';

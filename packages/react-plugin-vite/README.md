@@ -1,5 +1,7 @@
 # install
 
+`pnpm i -D @webspatial/vite-plugin`
+
 ## for typescript project.
 make sure add these:
 

@@ -1,5 +1,7 @@
 # install
 
+`pnpm i -D @webspatial/rsbuild-plugin`
+
 ```js
 // rsbuild.config.ts
 
