@@ -8,6 +8,7 @@ import {
   getReactSDKAliasByMode,
   ModeKind,
 } from '@webspatial/shared'
+export type * from '@webspatial/shared'
 import path from 'node:path'
 
 export interface WebSpatialOptions {

@@ -2,6 +2,8 @@
 
 `pnpm i -D @webspatial/vite-plugin`
 
+add `/// <reference types="@webspatial/vite-plugin" />` to `vite-env.d.ts`
+
 ## for typescript project.
 make sure add these:
 
