@@ -1,5 +1,11 @@
 # @webspatial/shared
 
+## 0.1.5
+
+### Patch Changes
+
+- 8024a69: add exprot for type **XR_ENV_BASE**
+
 ## 0.1.4
 
 ### Patch Changes
