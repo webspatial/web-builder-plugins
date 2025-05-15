@@ -9,6 +9,7 @@ import {
   getReactSDKAliasByMode,
   ModeKind,
 } from '@webspatial/shared'
+export type * from '@webspatial/shared'
 
 interface WebspatialOptions {
   mode?: ModeKind

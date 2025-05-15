@@ -8,6 +8,7 @@ import {
   getFinalOutdir,
   getReactSDKAliasReplacementByMode,
 } from '@webspatial/shared'
+export type * from '@webspatial/shared'
 interface WebSpatialOptions {
   // XR_ENV
   mode?: 'avp'
