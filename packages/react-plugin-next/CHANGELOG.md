@@ -1,5 +1,13 @@
 # @webspatial/next-plugin
 
+## 0.1.6
+
+### Patch Changes
+
+- 8024a69: add exprot for type **XR_ENV_BASE**
+- Updated dependencies [8024a69]
+  - @webspatial/shared@0.1.5
+
 ## 0.1.5
 
 ### Patch Changes
