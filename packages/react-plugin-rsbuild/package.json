@@ -16,6 +16,11 @@
     "dev": "tsup --watch",
     "test": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webspatial/web-builder-plugins.git",
+    "directory": "packages/react-plugin-rsbuild"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
