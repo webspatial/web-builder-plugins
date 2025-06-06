@@ -5,22 +5,21 @@
 ```js
 // rsbuild.config.ts
 
-import {defineConfig} from '@rsbuild/core';
-import {pluginReact} from '@rsbuild/plugin-react';
-import webspatial from '@webspatial/rsbuild-plugin';
+import { defineConfig } from '@rsbuild/core'
+import { pluginReact } from '@rsbuild/plugin-react'
+import webspatial from '@webspatial/rsbuild-plugin'
 
 export default defineConfig({
-    plugins: [
-        pluginReact({
-            swcReactOptions: {
-                runtime: 'automatic',
-                importSource: '@webspatial/react-sdk',
-            },
-        }),
-        webspatial(),
-    ],
-});
-
+  plugins: [
+    pluginReact({
+      swcReactOptions: {
+        runtime: 'automatic',
+        importSource: '@webspatial/react-sdk',
+      },
+    }),
+    webspatial(),
+  ],
+})
 ```
 
 in package.json, make sure `concurrently` is installed
@@ -40,6 +39,10 @@ function App() {
   return <Router basename={basename}>// other logic</Router>
 }
 ```
+
+## typescript support
+
+add `/// <reference types="@webspatial/rsbuild-plugin" />` to `env.d.ts
 
 # dev
 

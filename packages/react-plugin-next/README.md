@@ -2,7 +2,6 @@
 
 `pnpm i -D @webspatial/next-plugin`
 
-
 ```js
 
 import withWebspatial from '@webspatial/next-plugin';
@@ -29,6 +28,10 @@ function App() {
   return <Router basename={basename}>// other logic</Router>
 }
 ```
+
+## typescript support
+
+create a `env.d.ts` file and add `/// <reference types="@webspatial/next-plugin" />`
 
 # dev
 
