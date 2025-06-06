@@ -3,6 +3,7 @@ import type { RsbuildPlugin } from '@rsbuild/core'
 import {
   AVP,
   getDefineByMode,
+  getDefineXrEnvBase,
   getEnv,
   getFinalBase,
   getFinalOutdir,
@@ -39,11 +40,7 @@ export default function webspatialPlugin(
         config.dev.assetPrefix = finalbase
 
         config.server.base = finalbase
-        return config
-      })
-
-      // alias
-      api.modifyRsbuildConfig(config => {
+        // alias
         config.resolve = config.resolve ?? {}
         config.resolve.alias = {
           ...config.resolve.alias,
@@ -54,15 +51,11 @@ export default function webspatialPlugin(
         config.source.define = {
           ...config.source.define,
           ...getDefineByMode(mode),
+          ...getDefineXrEnvBase(finalbase),
         }
-        return config
-      })
-
-      // output
-      api.modifyRsbuildConfig(config => {
+        // output
         config.output = config.output || {}
         const userOutDir = config.output.distPath?.root
-        const userbase = config.server?.base
         console.log('🚀 ~ setup ~ userbase:', userbase)
 
         const assetPrefix = getFinalBase(userbase, mode, outputDir)

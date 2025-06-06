@@ -2,6 +2,7 @@ import { Compiler, DefinePlugin } from '@rspack/core'
 import {
   AVP,
   getDefineByMode,
+  getDefineXrEnvBase,
   getEnv,
   getFinalBase,
   getFinalOutdir,
@@ -27,10 +28,6 @@ export default class WebSpatialRspackPlugin {
     const outputDir = this.options.outputDir
     console.log('[WebSpatialRspackPlugin] mode:', mode)
 
-    // DefinePlugin
-    compiler.options.plugins = compiler.options.plugins || []
-    compiler.options.plugins.push(new DefinePlugin(getDefineByMode(mode)))
-
     let userBase = compiler.options.output.publicPath
     if (userBase === 'auto') {
       userBase = undefined
@@ -43,6 +40,15 @@ export default class WebSpatialRspackPlugin {
       getFinalOutdir(userOutDir, mode, outputDir),
     )
     console.log('[WebSpatialRspackPlugin] finalOutdir:', finalOutdir)
+
+    // DefinePlugin
+    compiler.options.plugins = compiler.options.plugins || []
+    compiler.options.plugins.push(
+      new DefinePlugin({
+        ...getDefineByMode(mode),
+        ...getDefineXrEnvBase(finalBase),
+      }),
+    )
 
     // run
     compiler.hooks.beforeRun.tap('WebSpatialRspackPlugin', () => {
