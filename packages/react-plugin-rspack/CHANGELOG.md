@@ -1,5 +1,11 @@
 # @webspatial/rspack-plugin
 
+## 0.1.4
+
+### Patch Changes
+
+- 692b06e: add **XR_ENV_BASE** define
+
 ## 0.1.3
 
 ### Patch Changes
