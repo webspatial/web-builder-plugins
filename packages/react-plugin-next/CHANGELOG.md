@@ -1,5 +1,12 @@
 # @webspatial/next-plugin
 
+## 0.1.7
+
+### Patch Changes
+
+- 89acf70: support node 22+ which not support dynamic require
+- 692b06e: add **XR_ENV_BASE** define
+
 ## 0.1.6
 
 ### Patch Changes
