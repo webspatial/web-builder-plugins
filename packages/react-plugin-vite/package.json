@@ -17,6 +17,11 @@
     "coverage": "vitest run --coverage",
     "test:w": "vitest --watch"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webspatial/web-builder-plugins.git",
+    "directory": "packages/react-plugin-vite"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
