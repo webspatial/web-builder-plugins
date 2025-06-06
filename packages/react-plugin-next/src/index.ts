@@ -4,6 +4,7 @@ import {
   addFirstSlash,
   AVP,
   getDefineByMode,
+  getDefineXrEnvBase,
   getEnv,
   getFinalBase,
   getFinalOutdir,
@@ -66,6 +67,7 @@ export default function withWebspatial<
         modifiedConfig.plugins.push(
           new (require('webpack').DefinePlugin)({
             ...getDefineByMode(mode),
+            ...getDefineXrEnvBase(finalBasePath),
           }),
         )
 
