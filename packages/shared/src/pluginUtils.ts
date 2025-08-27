@@ -116,6 +116,6 @@ export function getDefineByMode(mode?: ModeKind) {
 
 export function getDefineXrEnvBase(finalBase?: string) {
   return {
-    __XR_ENV_BASE__: JSON.stringify(finalBase),
+    __XR_ENV_BASE__: JSON.stringify(finalBase ?? ''),
   }
 }

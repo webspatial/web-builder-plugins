@@ -7,6 +7,7 @@ import {
   getReactSDKAliasByMode,
   removeFirstSlash,
   addFirstSlash,
+  getDefineXrEnvBase,
 } from './pluginUtils'
 
 describe('Environment Utility Functions', () => {
@@ -345,6 +346,19 @@ describe('Environment Utility Functions', () => {
         input.outputDir,
       )
       expect(actualOutput).toBe(result.finalOutDir)
+    })
+  })
+
+  describe('getDefineXrEnvBase', () => {
+    test('should return empty string when finalBase is undefined', () => {
+      const define = getDefineXrEnvBase()
+      expect(define.__XR_ENV_BASE__).toBe('""')
+    })
+
+    test('should return finalBase when it is not undefined', () => {
+      const finalBase = '/mybase'
+      const define = getDefineXrEnvBase(finalBase)
+      expect(define.__XR_ENV_BASE__).toBe(`"${finalBase}"`)
     })
   })
 })
