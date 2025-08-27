@@ -1,5 +1,11 @@
 # @webspatial/shared
 
+## 0.1.6
+
+### Patch Changes
+
+- 8e3be5f: fix _XR_ENV_BASE_ undefined issue it should be empty string
+
 ## 0.1.5
 
 ### Patch Changes
