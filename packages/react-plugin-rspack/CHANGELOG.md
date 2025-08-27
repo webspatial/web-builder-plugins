@@ -1,5 +1,12 @@
 # @webspatial/rspack-plugin
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [8e3be5f]
+  - @webspatial/shared@0.1.6
+
 ## 0.1.4
 
 ### Patch Changes
