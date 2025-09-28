@@ -1,7 +1,5 @@
 // nextjs-webspatial-plugin.ts
 import type { Configuration as WebpackConfig } from 'webpack'
-import webpack from 'webpack'
-const { DefinePlugin } = webpack
 import {
   addFirstSlash,
   AVP,
@@ -67,7 +65,7 @@ export default function withWebspatial<
 
         // env define
         modifiedConfig.plugins.push(
-          new DefinePlugin({
+          new context.webpack.DefinePlugin({
             ...getDefineByMode(mode),
             ...getDefineXrEnvBase(finalBasePath),
           }),
