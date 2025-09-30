@@ -1,5 +1,11 @@
 # @webspatial/next-plugin
 
+## 0.1.9
+
+### Patch Changes
+
+- 9b21685: [nextjs-plugin] fix an issue caused by not using webpack provided by nextjs
+
 ## 0.1.8
 
 ### Patch Changes
