@@ -30,8 +30,5 @@
     "@types/node": "^22.13.9",
     "tsup": "^8.4.0",
     "webpack": "^5.98.0"
-  },
-  "peerDependencies": {
-    "webpack": "^5.98.0"
   }
 }
