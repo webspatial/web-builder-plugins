@@ -1,4 +1,5 @@
 const AVP = 'avp'
+const DEFAULT_BASE = '/webspatial/avp'
 function getEnv(): ModeKind {
   const env = process.env.XR_ENV
   return env === 'avp' ? 'avp' : undefined
@@ -6,12 +7,12 @@ function getEnv(): ModeKind {
 
 export type ModeKind = 'avp' | undefined
 
-export { getEnv, AVP }
+export { getEnv, AVP, DEFAULT_BASE }
 
 export function getFinalBase(
   userBase: string | undefined,
   mode: ModeKind,
-  pluginOutputDir: string = '/webspatial/avp',
+  pluginOutputDir: string = DEFAULT_BASE,
 ) {
   if (mode === 'avp') {
     if (userBase !== undefined) {
