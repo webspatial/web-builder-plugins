@@ -15,6 +15,7 @@ interface WebSpatialOptions {
 
   // base path
   outputDir?: string
+  isSSR?: boolean
 }
 export default function (options: WebSpatialOptions = {}): PluginOption[] {
   let mode = options?.mode ?? getEnv()
@@ -95,6 +96,20 @@ export default function (options: WebSpatialOptions = {}): PluginOption[] {
             emptyOutDir: xrEnv !== AVP,
             // Remove custom rollup naming logic; use Vite defaults
           },
+        }
+      },
+    },
+    {
+      name: 'vite-plugin-inject-ssr-flag',
+      transformIndexHtml() {
+        if (options.isSSR) {
+          return [
+            {
+              tag: 'script',
+              injectTo: 'body-prepend',
+              children: 'window.__isSSR__ = true',
+            },
+          ]
         }
       },
     },
