@@ -30,7 +30,7 @@ function getFinalBaseVite(
   return base === DEFAULT_BASE ? `${base}/` : base
 }
 
-export default function (options: WebSpatialOptions = {}): PluginOption[] {
+export default function (options: WebSpatialOptions = {}) {
   let mode = options?.mode ?? getEnv()
   let outputDir = options?.outputDir
   console.log('🚀 ~ mode:', mode)
@@ -38,14 +38,14 @@ export default function (options: WebSpatialOptions = {}): PluginOption[] {
     {
       name: 'vite-plugin-webspatial-common',
       config: config => {
-        const myConfig: UserConfig = {
+        const myConfig = {
           esbuild: {
             jsxImportSource:
               mode === 'avp'
                 ? '@webspatial/react-sdk/default'
                 : '@webspatial/react-sdk/web',
           },
-        }
+        } as const
         const finalConfig = mergeConfig(config, myConfig)
 
         return finalConfig
@@ -60,8 +60,12 @@ export default function (options: WebSpatialOptions = {}): PluginOption[] {
         console.log('🚀 ~ finalBase:', finalBase)
         const userOutDir = userCfg.build?.outDir
         const finalOutdir = getFinalOutdir(userOutDir, mode, outputDir)
-        const config: UserConfig = {
-          define: {},
+        const config = {
+          define: {
+            // Define environment variables for both Node and browser
+            ...getDefineByMode(mode),
+            ...getDefineXrEnvBase(finalBase),
+          },
           resolve: {
             alias: [getReactSDKAliasReplacementByMode(mode)],
           },
@@ -69,14 +73,8 @@ export default function (options: WebSpatialOptions = {}): PluginOption[] {
             // Set output directory
             outDir: finalOutdir,
           },
-        }
-        config.base = finalBase
-        config.define = {
-          // Define environment variables for both Node and browser
-          ...getDefineByMode(mode),
-          ...getDefineXrEnvBase(finalBase),
-        }
-
+          base: finalBase,
+        } as const
         console.log('🚀 ~ config:', config)
         return config
       },
@@ -112,5 +110,5 @@ export default function (options: WebSpatialOptions = {}): PluginOption[] {
         }
       },
     },
-  ]
+  ] as const satisfies PluginOption[]
 }
