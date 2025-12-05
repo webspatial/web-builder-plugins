@@ -1,5 +1,12 @@
 # @webspatial/vite-plugin
 
+## 0.2.0
+
+### Minor Changes
+
+- 6510d1b: Add vite-plugin tests
+- 2411323: Fix Vite dev server not loading assets from public folder when using default Webspatial avp config
+
 ## 0.1.9
 
 ### Patch Changes
