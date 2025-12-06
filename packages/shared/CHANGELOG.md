@@ -1,5 +1,11 @@
 # @webspatial/shared
 
+## 0.2.0
+
+### Minor Changes
+
+- a51a955: Export DEFAULT_BASE from pluginUtils.ts
+
 ## 0.1.6
 
 ### Patch Changes

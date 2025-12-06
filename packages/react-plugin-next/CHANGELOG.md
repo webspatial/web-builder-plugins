@@ -1,5 +1,12 @@
 # @webspatial/next-plugin
 
+## 0.1.10
+
+### Patch Changes
+
+- Updated dependencies [a51a955]
+  - @webspatial/shared@0.2.0
+
 ## 0.1.9
 
 ### Patch Changes
