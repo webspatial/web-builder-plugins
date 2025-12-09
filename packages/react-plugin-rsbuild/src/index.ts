@@ -17,9 +17,24 @@ interface WebspatialOptions {
   outputDir?: string
 }
 
-export default function webspatialPlugin(
-  options?: WebspatialOptions,
-): RsbuildPlugin {
+export interface RsbuildConfigLike {
+  server?: { base?: string }
+  dev?: { assetPrefix?: string }
+  resolve?: { alias?: Record<string, string> }
+  source?: { define?: Record<string, string | undefined> }
+  output?: { distPath?: { root?: string }; assetPrefix?: string }
+}
+
+export interface RsbuildApiLike {
+  modifyRsbuildConfig: (
+    cb: (cfg: RsbuildConfigLike) => RsbuildConfigLike,
+  ) => void
+}
+
+export default function webspatialPlugin(options?: WebspatialOptions): {
+  name: string
+  setup: (api: RsbuildApiLike) => void
+} {
   let { mode = getEnv(), outputDir } = options ?? {}
 
   return {

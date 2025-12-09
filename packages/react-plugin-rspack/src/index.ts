@@ -1,4 +1,4 @@
-import { Compiler, DefinePlugin } from '@rspack/core'
+import { DefinePlugin } from '@rspack/core'
 import {
   AVP,
   getDefineByMode,
@@ -17,13 +17,31 @@ export interface WebSpatialOptions {
   outputDir?: string
 }
 
+export interface RspackHook {
+  tap: (name: string, cb: () => void) => void
+}
+
+export interface RspackCompilerLike {
+  options: {
+    output: {
+      publicPath?: string | undefined | 'auto'
+      path?: string | undefined
+    }
+    resolve?: { alias?: Record<string, string> }
+    plugins?: unknown[]
+    devServer?: { port?: number }
+    clean?: boolean
+  }
+  hooks: { beforeRun: RspackHook; beforeCompile: RspackHook; done: RspackHook }
+}
+
 export default class WebSpatialRspackPlugin {
   private options: WebSpatialOptions
   constructor(options: WebSpatialOptions = {}) {
     this.options = options
   }
 
-  apply(compiler: Compiler) {
+  apply(compiler: RspackCompilerLike) {
     const mode = this.options.mode ?? getEnv()
     const outputDir = this.options.outputDir
     console.log('[WebSpatialRspackPlugin] mode:', mode)
@@ -33,7 +51,7 @@ export default class WebSpatialRspackPlugin {
       userBase = undefined
     }
 
-    const finalBase = getFinalBase(userBase as any, mode, outputDir) ?? ''
+    const finalBase = getFinalBase(userBase, mode, outputDir) ?? ''
     console.log('[WebSpatialRspackPlugin] finalBase:', finalBase)
     const userOutDir = compiler.options.output?.path
     const finalOutdir = path.resolve(
@@ -76,23 +94,21 @@ export default class WebSpatialRspackPlugin {
       }
 
       // set alias
+      compiler.options.resolve = compiler.options.resolve || {}
       compiler.options.resolve.alias = {
         ...compiler.options.resolve.alias,
         ...getReactSDKAliasByMode(mode),
       }
 
       // clean dist when web version
-      ;(compiler.options as any).clean = mode !== AVP
+      compiler.options.clean = mode !== AVP
     })
 
     compiler.hooks.done.tap('WebSpatialRspackPlugin', () => {
       // only run when devServer up
       if (process.env.WEBPACK_SERVE) {
         // get devServer port, fallback to 8080
-        const port =
-          //@ts-ignore
-          (compiler.options.devServer && compiler.options.devServer.port) ||
-          8080
+        const port = compiler.options.devServer?.port ?? 8080
         console.log(
           `\n [WebSpatialRspackPlugin]  service running: http://localhost:${port}${finalBase}\n`,
         )

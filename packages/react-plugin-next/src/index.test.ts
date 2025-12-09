@@ -1,12 +1,16 @@
 import withWebspatial from './index'
 import { describe, it, expect } from 'vitest'
-import type { Configuration as WebpackConfig } from 'webpack'
+import type {
+  Configuration as WebpackConfig,
+  Compiler as WebpackCompiler,
+} from 'webpack'
 
 class FakeDefinePlugin {
   definitions: Record<string, unknown>
   constructor(defs: Record<string, unknown>) {
     this.definitions = defs
   }
+  apply(_compiler: WebpackCompiler): void {}
 }
 
 interface WebpackContext {
@@ -34,17 +38,33 @@ describe('@webspatial/next-plugin config', () => {
 
     const out = nextCfg.webpack(initial, ctx)
 
-    const alias = out.resolve?.alias as Record<string, string>
-    expect(alias['@webspatial/react-sdk$']).toBe(
-      '@webspatial/react-sdk/default',
-    )
-    expect(alias['@webspatial/react-sdk/jsx-runtime']).toBe(
-      '@webspatial/react-sdk/default/jsx-runtime',
-    )
+    function hasAliasObject(
+      cfg: WebpackConfig,
+    ): cfg is WebpackConfig & { resolve: { alias: Record<string, string> } } {
+      return (
+        !!cfg.resolve &&
+        !!cfg.resolve.alias &&
+        !Array.isArray(cfg.resolve.alias)
+      )
+    }
 
-    const added = out.plugins?.filter(p => p instanceof FakeDefinePlugin) ?? []
+    if (hasAliasObject(out)) {
+      expect(out.resolve.alias['@webspatial/react-sdk$']).toBe(
+        '@webspatial/react-sdk/default',
+      )
+      expect(out.resolve.alias['@webspatial/react-sdk/jsx-runtime']).toBe(
+        '@webspatial/react-sdk/default/jsx-runtime',
+      )
+    } else {
+      expect(false).toBe(true)
+    }
+
+    const added =
+      out.plugins?.filter(
+        (p): p is FakeDefinePlugin => p instanceof FakeDefinePlugin,
+      ) ?? []
     expect(added.length).toBe(1)
-    const defs = (added[0] as FakeDefinePlugin).definitions
+    const defs = added[0].definitions
     expect(defs['process.env.XR_ENV']).toBe('"avp"')
     expect(defs['__XR_ENV_BASE__']).toBe('"/webspatial/avp"')
 
@@ -65,7 +85,21 @@ describe('@webspatial/next-plugin config', () => {
     }
 
     const out = nextCfg.webpack(initial, ctx)
-    const alias = out.resolve?.alias as Record<string, string>
-    expect(alias['@webspatial/react-sdk$']).toBe('@webspatial/react-sdk/web')
+    function hasAliasObject(
+      cfg: WebpackConfig,
+    ): cfg is WebpackConfig & { resolve: { alias: Record<string, string> } } {
+      return (
+        !!cfg.resolve &&
+        !!cfg.resolve.alias &&
+        !Array.isArray(cfg.resolve.alias)
+      )
+    }
+    if (hasAliasObject(out)) {
+      expect(out.resolve.alias['@webspatial/react-sdk$']).toBe(
+        '@webspatial/react-sdk/web',
+      )
+    } else {
+      expect(false).toBe(true)
+    }
   })
 })
