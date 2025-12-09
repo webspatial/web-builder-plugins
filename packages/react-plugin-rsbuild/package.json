@@ -14,7 +14,7 @@
     "start": "npm run dev",
     "build": "tsup",
     "dev": "tsup --watch",
-    "test": "tsc"
+    "test": "tsc && vitest run --coverage"
   },
   "repository": {
     "type": "git",
