@@ -31,9 +31,9 @@
   "devDependencies": {
     "@types/node": "^22.13.9",
     "tsup": "^8.4.0",
-    "vite": "^6.2.0"
+    "vite": "^7.0.0"
   },
   "peerDependencies": {
-    "vite": "^6.0.0"
+    "vite": ">=6.0.0"
   }
 }

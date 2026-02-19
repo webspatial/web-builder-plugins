@@ -1,4 +1,4 @@
-import { PluginOption, UserConfig, mergeConfig } from 'vite'
+import { ConfigEnv, UserConfig, mergeConfig } from 'vite'
 import {
   AVP,
   DEFAULT_BASE,
@@ -37,7 +37,7 @@ export default function (options: WebSpatialOptions = {}) {
   return [
     {
       name: 'vite-plugin-webspatial-common',
-      config: config => {
+      config: (config: UserConfig) => {
         const myConfig = {
           esbuild: {
             jsxImportSource:
@@ -54,7 +54,7 @@ export default function (options: WebSpatialOptions = {}) {
     {
       name: 'vite-plugin-webspatial-serve',
       apply: 'serve',
-      config: userCfg => {
+      config: (userCfg: UserConfig) => {
         const userBase = userCfg.base
         const finalBase = getFinalBaseVite(userBase, mode, outputDir)
         console.log('🚀 ~ finalBase:', finalBase)
@@ -83,7 +83,7 @@ export default function (options: WebSpatialOptions = {}) {
     {
       name: 'vite-plugin-webspatial-build',
       apply: 'build',
-      config: (config, { command }) => {
+      config: (config: UserConfig, { command }: ConfigEnv) => {
         const userOutDir = config.build?.outDir
         const xrEnv = getEnv()
         const userBase = config.base
@@ -110,5 +110,5 @@ export default function (options: WebSpatialOptions = {}) {
         }
       },
     },
-  ] as const satisfies PluginOption[]
+  ] as const
 }
