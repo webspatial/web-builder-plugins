@@ -1,5 +1,11 @@
 # @webspatial/vite-plugin
 
+## 1.0.0
+
+### Major Changes
+
+- f7eee8e: Add support for Vite 7
+
 ## 0.2.1
 
 ### Patch Changes
