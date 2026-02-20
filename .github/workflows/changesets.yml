@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0  # Use full git history to enable tagging
 
@@ -30,14 +30,11 @@ jobs:
         uses: pnpm/action-setup@v4
 
       - name: Setup node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: latest
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
-
-      - name: Update npm
-        run: npm install -g npm@'>=11.5.1'
 
       - name: Install dependencies and build
         run: pnpm run setup
