@@ -1,4 +1,5 @@
 import plugin from './index'
+import { defineConfig } from 'vite'
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { DEFAULT_BASE, AVP } from '@webspatial/shared'
 
@@ -102,5 +103,9 @@ describe('@webspatial/vite-plugin default export', () => {
     )
     expect(cfg.base).toBe('/x')
     expect(cfg.resolve.alias[0].replacement).toBe('@webspatial/react-sdk/web')
+  })
+
+  it('plugin interface satisfies Vite', () => {
+    defineConfig({ plugins: [plugin()] })
   })
 })

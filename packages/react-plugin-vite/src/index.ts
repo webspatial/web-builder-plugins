@@ -1,4 +1,4 @@
-import { ConfigEnv, UserConfig, mergeConfig } from 'vite'
+import { ConfigEnv, UserConfig, mergeConfig, Plugin } from 'vite'
 import {
   AVP,
   DEFAULT_BASE,
@@ -110,5 +110,5 @@ export default function (options: WebSpatialOptions = {}) {
         }
       },
     },
-  ] as const
+  ] as const satisfies Plugin[]
 }
