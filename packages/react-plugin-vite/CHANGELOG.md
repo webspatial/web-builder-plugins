@@ -1,5 +1,11 @@
 # @webspatial/vite-plugin
 
+## 1.0.1
+
+### Patch Changes
+
+- e8b607f: Fix type error for vite-plugin
+
 ## 1.0.0
 
 ### Major Changes
